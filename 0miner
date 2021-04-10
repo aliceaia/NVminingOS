@@ -1,0 +1,185 @@
+#!/bin/bash
+
+##########################################################################
+##########################################################################
+####################   nvOC 3.2 - Community Release   ####################
+##########   Based on the original nvOC v0019-1.4 by fullzero   ############
+##########################################################################
+##########################################################################
+
+# 0miner for nvOC v0019
+
+# DEV Mod Log:
+# v=0001 : papampi: Initial Release
+#
+# v=0002 : papampi:
+#          fix lbc
+# v=0003 : papampi:
+#          More NiceHash, MINER_PWD failsafe,
+#          COIN_EXTENSION_ARGUMENTS for ethminer and genoil
+# v=0004 : damNmad:
+#          New Coins LUX, SUMO, DSR
+# v=0005 : papampi:
+#          New Coin ELLA, XVG, GBX, CRC
+# v=0006 : papampi:
+#          EQUIHASH_MINER, bminer, ETHASH_MINER
+# v=0007 : papampi:
+#          Nicehash bug fixes
+# v=0008 : papampi:
+#          Move all miners to "${NVOC}"/miners/
+# v=0009 : papampi
+#          Pool Wallet Address Format
+# v=0010 : papampi
+#          New Claymore Dual Mining
+# v=0011 : damNmad
+#          Added BTCP
+# v=0012 : Falcon
+#          Added CCMINER_OPTS, added RavenCoin (RVN)
+# v=0013 : papampi
+#          Changed EWBF HCD
+# v=0014 : papampi
+#          Code cleanup, NEOSCRYPT_MINER, LYRA2V2_MINER, SKUNK_MINER, SKEIN_MINER
+# v=0015 : LukePicci
+#          Relocate nvOC to arbitrary install directory
+# v=0016 : papampi
+#          Prevent running 2 miners
+# v=0017 : sizzlephizzle
+#	         Unification of EQUIHASH & ETHASH mining by ALGO.
+# v=0018 : papampi, sizzlephizzle
+#	         Algo Unification for all algorithms
+# v=0019 : papampi
+#          Crytponight Heavy
+# v=0020 : papampi
+#          ZHASH, PHI1612, PHI2 Algos and Z_EWBF
+# v=0021 : LuKePicci
+#          Support pluggable miners
+# v=0022 : papampi
+#          Ethminer new arguments, Coin Pool Protocol
+# v=0023 : papampi
+#          Cuda switch in screenrc for new and old miners
+# v=0024 : papampi
+#          New miners directory and miner version
+# v=0025 : papampi
+#          BMINER Dual Mining
+# v=0026 : papampi
+#          lolMiner
+# v=0027 : papampi
+#          PhoenixMiner
+# v=0028 : brightskye
+#          disabled_gpu helper
+# v=0029 : papampi
+#          echo miner command
+# v=0030 : LuKePicci
+#          remove first batch of legacy miners
+
+nvOC_0miner_dev="0030"
+source "${NVOC}/1bash"
+source "${NVOC}/helpers/coin_algo_mapping"
+source "${NVOC}/helpers/disabled_gpu.sh"
+
+nvOC_0miner_ver="$nvOC_Ver.$nvOC_0miner_dev" # Do not edit this
+
+# Prevent running 2 miners
+if ps ax | grep SCREEN | grep -v cpuminer | grep -q miner ; then
+  ps ax | grep SCREEN | grep -v cpuminer | grep miner | awk '"miner" {print $1}' | xargs kill -9
+fi
+
+# Set MINER_PWD if unset
+if [ -z "${MINER_PWD+x}" ]
+then
+  MINER_PWD="x"
+fi
+
+## Unify COIN Start
+UPOOL="_POOL"
+UPORT="_PORT"
+UPROTO="_POOL_PROTOCOL"
+UADDR="_ADDRESS"
+UWORK="_WORKER"
+UCOINOPTS="_OPTS"
+UINTENSITY="_INTENSITY"
+UWALLET="_WALLET_FORMAT"
+UMINER="_MINER"
+UFEE="_FEE"
+UVERSION="_VERSION"
+UCUDA="_CUDA"
+
+xpool=$COIN$UPOOL
+xport=$COIN$UPORT
+xproto=$COIN$UPROTO
+xaddr=$COIN$UADDR
+xwork=$COIN$UWORK
+xcoinopts=$COIN$UCOINOPTS
+xintensity=$ALGO$UINTENSITY
+xwallet=$ALGO$UWALLET
+xminer=$ALGO$UMINER
+xfee=${!xminer}$UFEE
+xversion=${!xminer}$UVERSION
+xcuda=$ALGO$UCUDA
+## Unify COIN End
+UCCALGO="-a ${ALGO,,}"
+UCCCOIN="${COIN,,}"
+
+OPTS="${!xcoinopts} $(dgh_get_miner_opts "${!xminer}" "$COIN" "$ALGO")"
+
+mpath="${NVOC}/miners/${!xminer}"
+
+# List of cuda-8.0 miners
+LAUNCH="screen -c ${NVOC}/screenrc-miner -dmSL miner"
+
+if [[ ${!xaddr} == "" ]]
+then
+  echo "WARNING: ${xaddr} is empty or not set" | tee -a ${NVOC}/nvoc_logs/screenlog.0
+fi
+
+if [[ ${!xproto} == "" ]]
+then
+  eval $xproto="stratum+tcp"
+fi
+
+if [[ ${!xversion} == "" ]]
+then
+  eval $xversion="recommended"
+fi
+
+
+## Pluggable miners
+if [[ ${!xversion} != "" && -f ${mpath}/"${!xversion}"/nvoc-miner.json || -f ${mpath}/nvoc-miner.json ]]
+then
+  pm_manifest=${mpath}/${!xversion}/nvoc-miner.json
+  
+  # parse device enable params
+  dev_enable_arg="$(jq -r .devlist_argument ${pm_manifest})"
+  if ! [[ "null false" =~ $dev_enable_arg ]]
+  then
+    dev_enable_sep="$(jq -r .devlist_separator ${pm_manifest})"
+    dev_enable_fmt="$(jq -r .devlist_format ${pm_manifest})"
+    OPTS="$(dgh_enabled_devices "${dev_enable_arg}" "${dev_enable_sep}" "${dev_enable_fmt}" "$OPTS")"
+  else
+    echo "[WARNING] - Unable to instruct ${mpath}/${!xversion} about which GPUs to enable, it will likely use all of them" | tee -a ${NVOC}/nvoc_logs/screenlog.0
+  fi
+
+  if [[ $FOREMAN_MONITOR == YES ]]
+  then
+    # parse foreman monitor params
+    api_ext=$(jq -r .foreman.api_ext ${pm_manifest})
+    if [[ $api_ext != "" ]]
+    then
+      OPTS="$OPTS $api_ext"
+    fi
+  fi
+
+  HCD="${mpath}/"${!xversion}"/$(jq -r .hcd ${pm_manifest})"
+  eval echo $LAUNCH $HCD $OPTS | tee -a ${NVOC}/nvoc_logs/screenlog.0
+  eval $LAUNCH $HCD $OPTS
+
+
+  # What happened to all miners? They have been finally ported to PMs !
+
+else
+  echo
+  echo "[ERROR] - '${mpath}/${!xversion}' not found, check your settings." | tee -a ${NVOC}/nvoc_logs/screenlog.0
+  echo "          Make sure version '${!xversion}' exists for '${mpath}'" | tee -a ${NVOC}/nvoc_logs/screenlog.0
+  echo "Miner not started, Stopping watchdog" | tee -a ${NVOC}/5_watchdoglog
+  pkill -f 5watchdog
+fi

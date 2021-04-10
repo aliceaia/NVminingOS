@@ -1,0 +1,192 @@
+#!/usr/bin/env python2.7
+# _*_ coding: utf-8 _*_
+#### Whattomine auto switch written by papampi + hurvajs77 + damNmad
+### papampi BTC address:     1NsnsnqkkVuopTGvUSGrkMhhug8kg6zgP9
+### damNmad BTC address:     1Mtf6K7c3ZhBDcPz91c4wcQ95DxLn88zC
+### hurvajs77 BTC address:   3NRMRn3ZKrxwQqkwPfEsjb14dkVDWobyBC
+### LuKePicci BTC address:   1MTc9fczdo1CXjvYHbPc987HoWCrzzr2gB
+
+# v=0001 : Papampi    : Initial release
+# v=0002 : Papampi    : Some changes with damNmad help
+# v=0003 : Papampi    : More changes with hurvajs77 help
+# v=0004 : Papampi    : Added NiceHash with Rumo and CryptAtomeTrader44 help
+# v=0005 : LuKePicci  : Refactor, cleanup and minor modifications to switching …
+# v=0006 : papampi    : Comment out some output logs to prevent conflicts with 8wtm_auto_switch
+# v=0007 : papampi    : Added more sources to get BTC exchange rate
+# v=0008 : papampi    : NICE* prefix compatibility
+# v=0009 : papampi    : Fix can not get data
+# v=0010 : papampi    : BTC price workaround if failed to fetch (Thanks to PM-2Ring)
+
+
+
+from collections import OrderedDict
+import json
+import requests
+import sys
+import urllib
+import urllib2
+
+# load config
+try:
+    configFile = sys.argv[1]
+except:
+    configFile = "WTM.json"
+
+cfg = json.loads(open(configFile).read())
+
+outputDir=cfg["output_dir"]
+requestUrl = urllib.unquote(urllib.unquote(cfg["WTM_URL"]))
+minimumDifference = float(cfg["WTM_MIN_DIFFERENCE"])
+includedCoins = cfg["WTM_COINS"].upper()
+delimiter = ";"
+currency=cfg["currency"]
+
+topCoinLogFile = outputDir + "/WTM_top_coin"
+
+# load included coins
+includedCoins = includedCoins.strip(delimiter)
+
+if not includedCoins:
+    print "No incluted coins. Please, check 1bash script for WTM settings."
+    sys.exit()
+
+includedCoins = includedCoins.split(delimiter)
+
+
+def saveTopCoin(data):
+    logFile = open(topCoinLogFile, "w")
+    logFile.write(data)
+    logFile.close()
+    return
+
+#Get BTC exchange rate 
+apis = [
+    {
+        "name": "coindesk.com",
+        "url": "https://api.coindesk.com/v1/bpi/currentprice.json",
+        "keys": ("bpi", currency, "rate_float"),
+    },
+    {
+        "name": "coinbase.com",
+        "url": "https://api.coinbase.com/v2/exchange-rates?currency=BTC",
+        "keys": ("data", "rates", currency),
+    },
+    {
+        "name": "blockchain.info",
+        "url": "https://blockchain.info/ticker",
+        "keys": (currency, "last"),
+    },
+]
+
+for d in apis:
+    name, url, keys = d["name"], d["url"], d["keys"]
+    print"Getting BTC price from", name
+    try:
+        req = requests.get(url)
+        req.raise_for_status()
+    except requests.exceptions.RequestException as e:
+        print(e)
+        print"Cannot get data from", name
+        continue
+
+    try:
+        # Extract the exchange rate
+        data = req.json()
+        for k in keys:
+            data = data[k]
+    except KeyError as e:
+        print("Bad key!:", e)
+        continue
+
+    try:
+        # Convert the exchange rate to a float.
+        # Some APIs return it as a float, but coinbase.com returns
+        # a string. This code also handles None, which in JSON is null
+        exchrate = float(data) 
+        break
+    except (ValueError, TypeError) as e:
+        print("Invalid exchange rate data", data, type(data))
+else:
+    print"Failed to get latest BTC price, use last fetched."
+    file = open(outputDir + "/WTM_BTC_EXCHANGE_RATE", 'r')
+    lastprice = file.read()
+    exchrate = float(lastprice.split(" ")[0])
+    
+#BTC Rates for web, output, ...
+print "BTC PRICE: " + str(exchrate) + " " + str(currency)
+exchrateLog = open(outputDir + "/WTM_BTC_EXCHANGE_RATE", "w")
+exchrateLog.write(str(exchrate) + " " + str(currency))
+exchrateLog.close()
+
+# try load previous top coin
+try:
+    with open(topCoinLogFile) as contentFile:
+        content = contentFile.read()
+except:
+    content = "-:0"
+
+miningCoin = content.split(":")
+#print "Currently mining coin: %s, last profit: %s" % (miningCoin[0], miningCoin[1])
+
+try:
+    httpResponse = requests.get(requestUrl)
+except:
+    print("Can not get data from WhatToMine.com.")
+    sys.exit()
+    raise
+
+try:
+    data = httpResponse.json(object_pairs_hook=OrderedDict)['coins']
+except:
+    print "Invalid JSON"
+    sys.exit()
+    raise
+
+# filter WTM coins by user selection only
+for i in data:
+    if data[i]["tag"] == "NICEHASH":
+       data[i]["tag"] = "NICE_" + data[i]["algorithm"].upper()
+
+for i in filter(lambda x: data[x]["tag"] not in includedCoins, data):
+    data.pop(i)
+
+#save current revenue
+print " "
+print "Current Revenue:"
+RevLog = open(outputDir + "/WTM_current_revenue", "w")
+for i in data:
+    RevLog.write("%s:%02.2f\n" % (data[i]["tag"], float(data[i]["btc_revenue"])*exchrate) )
+    print  '%s %02.2f %s' % (data[i]["tag"], float(data[i]["btc_revenue"])*exchrate, currency)
+RevLog.close()
+
+# save current profit
+print " "
+print "Current Profit:"
+profitLog = open(outputDir + "/WTM_current_profit", "w")
+for i in data:
+    profitLog.write("%s:%s\n" % (data[i]["tag"], data[i]["profitability"]))
+    print "%s: %s %%" % (data[i]["tag"], data[i]["profitability"])
+profitLog.close()
+
+oldTopCoin = { "tag": "-", "profitability": 0 }
+try:
+    oldTopCoin = filter(lambda x: x["tag"] == miningCoin[0], data.values())[0]
+except:
+    print "Currently mining coin was not found in inclusion list, will switch to the new best one"
+    minimumDifference = 0
+
+print " "
+newTopCoin = oldTopCoin
+# try searching for a new top coin comparing its profit with current mining coin profit
+try:
+    for coin in data:
+      # is this the currently mining coin or a better one?
+      if miningCoin[0] == data[coin]["tag"] or (float(data[coin]["profitability"]) - minimumDifference) >= float(oldTopCoin["profitability"]):
+         # Switch / update profitability
+         newTopCoin = data[coin]
+         break
+    saveTopCoin(str(newTopCoin["tag"]) + ":" + str(newTopCoin["profitability"]))
+except:
+# Some errors
+    print ""
+    sys.exit()

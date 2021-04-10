@@ -1,0 +1,37 @@
+#!/bin/bash
+
+##########################################################################
+##########################################################################
+####################   nvOC 3.2 - Community Release   ####################
+##########   Based on the original nvOC v0019-1.4 by fullzero   ##########
+##########################################################################
+##########################################################################
+
+# TELEGRAM for nvOC v0019-2.0 by papampi, stubo and leenoox
+
+export NVOC="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+source ${NVOC}/1bash
+
+nvOC_telegram_Dev="0001"
+nvOC_telegram_ver="$nvOC_Ver.$nvOC_telegram_Dev"   # Do not edit this
+
+echo "Telegram Messages for nvOC $nvOC_Ver"
+echo "Version: $nvOC_telegram_ver"
+echo ""
+
+while true
+do
+
+TIMEIN=$TELEGRAM_TIMEOUT_IN_MINUTES
+
+TIMEOUT=$(($TIMEIN * 60))
+
+bash "${NVOC}/telegram"
+sleep 2
+echo ""
+echo "New Telegram in $TIMEOUT seconds"
+sleep $TIMEOUT
+echo ""
+done
+fi
+

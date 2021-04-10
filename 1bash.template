@@ -1,0 +1,689 @@
+#!/bin/bash
+
+##########################################################################
+##########################################################################
+####################   nvOC 3.2 - Community Release   ####################
+##########   Based on the original nvOC v0019-1.4 by fullzero   ##########
+##########################################################################
+##########################################################################
+
+# fullzero:     nvOC Creator
+
+# papampi:      nvOC Community Release Creator
+#               ( BTC address: 1NsnsnqkkVuopTGvUSGrkMhhug8kg6zgP9 )
+
+# nvOC Community Release contributors (in alphabetical order):
+
+# brightskye:   DISABLED_GPUS
+#               Allow turning off gpu by utilizing each miner's -device options
+
+# leenoox:      nvOC ver 0019-2.0 (community release)
+#               The new 0019-2.0 TEMP_CONTROL
+#               Methods for color output throughout nvOC scripts
+#               multiple bug fixes and enhacements for ver 0019-2.0
+
+# LukePicci:    nvOC Community Release Main Developer
+
+# obm_dan:      Foreman monitoring integration
+#               ( BTC address: 1MGxnFDozG1UTKjxryNaiAAU7XkqWpEqK2 )
+
+# SizzlePizzle: Algo mining unification 
+#               ( BTC address: bc1qq42xn9zea933j88kv7u8xqeae84rr8f8lmlx55 )
+
+# Stubo:        ver 0019-2.0 (community release) main developer
+#               nvOC function script
+#               minerinfo script
+#               multiple bug fixes and enhacements for ver 0019-2.0
+
+# Original nvOC contributors (in alphabetical order):
+
+# BaliMiner:    TELEGRAM_MESSAGES
+#               ( BTC address:  1HbzxQ6AVeWYvFm322KtxZcJJLAqfJHpN8 )
+
+# damNmad:      damNmad_ALGO_SPECIFIC_OC
+#               nvOC discord channel https://discordapp.com/invite/8YDFEvY
+#               Added Lots of COIN selections
+#               Alternative telegram alert
+#               ( BTC address: 1Mtf6K7c3ZhBDcPz91c4wcQ95DxLn88zC )
+
+# IAmNotAJeep:  IAmNotAJeep_and_Maxximus007_WATCHDOG
+#               Methods for improved system stability
+#               ( BTC address: 13PnEKpfVzNseWkrm6LoueKcCMPj74zPv7 )
+
+# kk003:        Alternative telegram alert ( very extensive )
+#               Telegram Setup Video
+#               ( BTC address: 196pMZnByg5UaPvJPK67ErAHgDPeSyu8QV )
+
+# lost_post:    upPASTE (timeout based _Parallax_ Mode auto-updating)
+#               Methods for separating settings and implementation
+#               Methods for AUTO_UPDATE
+#               ( BTC address: 1GFTEtLLvvwoa4ogDntD5oaXBgJLYokzTC )
+
+# Maxximus007:  Maxximus007_AUTO_TEMPERATURE_CONTROL
+#               Expectless 1bash
+#	        IAmNotAJeep_and_Maxximus007_WATCHDOG
+#               ( BTC address: 1JAFefdPVAs3WQiTqnYWbsjifJAEjQcjQ8 )
+
+# meligo:       FAQ website nvoc-mining-os.com
+#               ( BTC address: 1AwUJMztX2ARZp8ULqR5UsK3b27om8j3vq )
+
+# papampi:      nvOC Community Release main developer
+#               WTM_AUTO_SWITCH
+#	        WTM_PROFIT_CHECK
+#               Alternative telegram alert and guide
+#               Web info http://rig_ip/index.html
+#               multiple bug fixes and enhacements for ver 0019-2.0
+#               ( BTC address: 1NsnsnqkkVuopTGvUSGrkMhhug8kg6zgP9 )
+
+# _Parallax_:   _Parallax_ Mode ( wget + pastebin oneBash updating )
+#               Methods for image size reduction
+#               Methods for logging and system enhancements (with next version)
+#               ( BTC address: 329k8rDgxHHcHAEXfwznqv25Go5LERGWLp )
+
+# salfter:      SALFTER_NICEHASH_PROFIT_SWITCHING
+#               SALFTER_MPH_PROFIT_SWITCHING
+#               ( BTC address: 1TipsGocnz2N5qgAm9f7JLrsMqkb3oXe2 )
+
+# xleejohnx:    SRR support
+#               ( BTC address: 1EY5WbiW3YkWanSKEGcjCETpQfCR81wc56 )
+
+v0001="papampi;Community Release"
+v0002="Papampi;Telegram changes"
+v0003="Papampi;WTM_MINIMUM_MINING_TIME"
+v0004="Papampi;More NiceHash mining algos"
+v0005="damNmad;New Coins LUX, SUMO, DSR"
+v0006="Papampi;New Coins ELLA, XVG, GBX, CRC"
+v0007="Papampi;EQUIHASH_MINER, ETHASH_MINER, bminer"
+v0008="Papampi;Nicehash bug fixes"
+v0009="papampi;Added P104 and changed P106 to P10X"
+v0010="papampi;WTM minimum mining time and force switch"
+v0011="papampi;Pool Wallet Address Format"
+v0012="papampi;New claymore dual mining "
+v0013="damNmad;Added BTCP & notes for $WALLET_ADDRESS_FORMAT variable"
+v0014="Falcon;Added RavenCoin (RVN)"
+v0015="papampi;Temp Control Maximum fan speed" 
+v0016="papampi;Some fix in claymore_dual"
+v0017="papampi;NEOSCRYPT_MINER, LYRA2V2_MINER, SKUNK_MINER, SKEIN_MINER"
+v0018="papampi;Alternate Pool Switch"
+v0019="papampi;WTM 2nd lower minimum difference to switch"
+v0020="LukePicci;Relocate nvOC to arbitrary install directory"
+v0021="papampi;More miner optional arguments"
+v0022="papampi;OhGodAnETHlargementPill"
+v0023="LukePicci;Simplified ALGO specific settings"
+v0024="papampi;HEADLEASS_MODE"
+v0025="LuKePicci;AUTO_SWITCH generalized implementetion"
+v0026="papampi,sizzlephizzle; Algo mining unification" 
+v0027="LuKePicci;Separate algo_id"
+v0028="LuKePicci;More tempcontrol alert color and verbosity options"
+v0029="papampi;Nice Algo extension arguments"
+v0030="papampi;CryptoNightHeavy"  
+v0031="papampi;New EWBF v0.3"  
+v0032="papampi;Version numbering"
+v0033="papampi;ZHASH, PHI1612, PHI2 Algos, Z_EWBF Miner and NICE_X16R"
+v0034="LuKePicci;Rearrange settings and explaination comments"
+v0035="LuKePicci;Uniform plusCPU handling"
+v0036="papampi;Ethminer new arguments, Coin Pool Protocol"
+v0037="papampi;Added bminer scheme info for zhash & tensority based coins"
+v0038="Spiral;Added max temperature shutdown option & resolution option for teamviewer"
+v0039="papampi;CryptoDredge miner, Suported Algos: Allium, Blake2s, Lyra2v2, Lyra2z, NeoScrypt, PHI1612, Phi2, Skein, Skunkhash, Tribus"
+v0040="papampi;BMiner Dual mining"
+v0041="papampi;XDNA COIN, HEX ALGO"
+v0042="papampi;lolMiner"
+v0043="papampi;PhoenixMiner"
+v0044="papampi;Auto restart miner,T_Rex miner"
+v0045="brightskye;DISABLED_GPUS"
+v0046="LuKePicci;Address settings for nicehash, zpool and mph moved from 0miner to 1bash"
+v0047="papampi;Add Foreman monitoring"
+v0048="LuKePicci;Changes for brightskye's extended miner options handling"
+v0049="papampi;CryptoNightV8, X22I, SUQA, Energi Algo, ENERGIMINER, NRG COIN"
+v0050="papampi;Miner Schedule"
+v0051="papampi;MTP Algo"
+v0052="papampi;cuckaroo29, CuckooCycle, cuckatoo31 Algo"
+v0053="papampi;load average check"
+v0054="papampi;tempcontrol cycle"
+v0055="papampi;x21s algo, RITO Coin"
+v0056="papampi;NICE_MTP, Nice_Cuckatoo31 and Nice_Cuckaroo29"
+v0057="papampi;Lyra2REv3"
+v0058="papampi;Allowed fan difference"
+v0059="LuKePicci;x16rv2 algo"
+v0060="papampi;beamhashii algo"
+
+
+# Do not edit these lines
+nvOC_Ver="v0019-3.2" 
+nvOC_1bash_ver="0058"
+nvOC_1bash_least_compatible="0058"
+nvOC_1bash_last_compatible="0058"
+
+# Open the terminal to launch miner; will auto launch on boot
+
+# firefox has an OP bookmark; look at the OP for more information
+
+# Supported Algorithms: 
+#               BITCORE CRYPTONIGHT CRYPTONIGHTHEAVY CRYPTONIGHTV7 CRYPTONIGHTV8 
+#               CUCKAROO29 CUCKATOO31 CUCKOOCYCLE DECRED ENERGI EQUIHASH ETHASH GRS 
+#               LBRY LYRA2V2 LYRA2RE3 LYRA2Z MYR_GR NEOSCRYPT PASCAL PHI1612 PHI2 SIA 
+#               SIB SKEIN SKUNK X13 X16R X16RV2 X21S X22I XEVAN ZHASH
+
+# ALGO Mining with NiceHash (Auto converts to BTC)
+######### NICE-ETHASH,NICE-EQUIHASH, NICE-LYRA2REV2, NICE-NEOSCRYPT, NICE-CRYPTONIGHT, NICE-X11GOST, NICE-SKUNKHASH
+
+# ALGO Miningh with Zpool (Auto converts to BTC)
+######### ZPOOL_LYRA2V2  ZPOOL_BLAKE2S  ZPOOL_EQUIHASH  ZPOOL_LBC  ZPOOL_NEOSCRYPT  ZPOOL_LBRY  ZPOOL_SKEIN
+
+# ALGO Miningh with Miningpoolhub (Auto convert to any coins in MPH settings web page)
+#########MPH_EQUIHASH, MPH_ETHASH, MPH_SKEIN, MPH_LYRA2Z, MPH_NEOSCRYPT, MPH_LYRA2V2, MPH_CRYPTONIGHTV7, MPH_KECCAK
+
+# CLAYMORE_DUAL (ETHASH + Decred/Siacoin/Lbry/Pascal/Blake2s/Keccak)
+## All supported coins can be added in CLAYMORE_DUAL section
+
+# BMINER_DUAL (ETHASH + Decred/Siacoin/Lbry/Pascal/Blake2s/Keccak)
+## All supported coins can be added in BMINER_Dual section
+
+# Profit Switchers
+######### WTM_SWITCHING - Auto Switch based on WhatToMine.com API 
+######### SALFTER_NICEHASH_PROFIT_SWITCHING - NiceHash Profit Switching based on Nicehash API
+######### SALFTER_MPH_PROFIT_SWITCHING - MiningPoolHub  Profit Switching based on MPH API
+######### SALFTER_PROGRAMATIC_SWITCHING       # - change what coin/algo you mine through an external JSON configuration file 
+
+# Choose any coins listed in coin section or add yours (Ask devs if you dont know how)
+
+###############################################################################
+#                                                                             #
+#  IMPORTANT: USE ALL CAPS when editing below except for addresses and pools  #
+#                                                                             #
+###############################################################################
+
+########################################################
+#                                                      #
+# General settings                                     #
+#                                                      #
+########################################################
+
+COIN="ETH"                  # Manual mining, choose the coin to mine (like "ETH", "ZEC", ...)
+			    # Dual mining: "DUAL_CLAYMORE" or "DUAL_BMINER"
+                            # Automatic profit-based switchers below
+
+AUTO_START_MINER="NO"      # YES or NO # Set this to NO when troubleshooting, this will prevent the watchdog restarting the rig
+
+
+# Notes: - NO disables auto switching, mine previously selected COIN
+#        - WTM_SWTICHING switch coin over your preferred pools following
+#          whattomine.com profitability charts
+#        - SALFTER_NICEHASH_SWITCHING switch algo over nicehash pools following
+#          nicehash profitabiliy charts
+#        - SALFTER_MPH_SWITCHING switch algo over miningpoolhub pools following
+#          miningpoolhub profitability charts
+#        - SALFTER_PROGRAMATIC_SWITCHING switch algo over pools provided by any
+#          custom api URL following its own profitability logic
+
+NUMBER_GPUS_INSTALLED=""    # Number or "" # Set number of GPUs installed. Watchdog will check installed vs detected. Leave empty to not check
+
+DISABLED_GPUS=""           # space seperated list of devices to be ignore by the miner, start from 0, e.g. 0 1 2 3 4 ...
+			   
+LOCALorREMOTE="LOCAL"       # LOCAL or REMOTE # Set to LOCAL if you have local access to the rig. Set to REMOTE if logging remotely to the rig
+# LOCAL will attach the mining process to the gnome or guake terminal
+# REMOTE will leave it unattached, miner will be launched using "screen", ready for SSH
+
+
+TEAMVIEWER="NO"             # YES or NO # If you use Team Viewer to remotely connect to this rig set this to YES
+
+RESOLUTION="1366x768"       # Default system resolution used when connecting through TeamViewer
+
+
+SSH="YES"                   # YES or NO # If you use SSH to remotely connect to this rig set this to YES
+
+
+AUTO_REBOOT="NO"            # YES or NO # If you want this rig to periodically reboot set this to YES
+
+REBOOT_TIMEOUT_IN_MINUTES=2880  # If AUTO_REBOOT is set to YES, use this to set how often to reboot, 1440 = 24 hours, 2880 = 48 hours, minimum 60.
+
+
+MINER_RESTART="NO"            # YES or NO # If you want to periodically restart miner set this to YES
+
+MINER_RESTART_TIMEOUT_IN_MINUTES=720  # If MINER_RESTART is set to YES, use this to set how often to restart miner, 720 = 12 hours, minimum 60.
+
+
+MINER_SCHEDULE="NO"        # Schedule mining to stop and start between given times
+
+SCHEDULE_START="07:00"     # Mining start at this time
+
+SCHEDULE_END="19:00"       # Mining stop at this time
+
+
+GLOBAL_WORKERNAME="YES"     # YES or NO # Use same workername for all coins
+
+AUTO_WORKERNAME="HOST"      # HOST or MAC or CUSTOM # Use HOST IP address or network card MAC address or CUSTOM name workername
+
+CUSTOM_WORKERNAME="19_3"    # If AUTO_WORKERNAME="CUSTOM" enter your desired workername here
+
+
+CLEAR_LOGS_ON_BOOT="YES"     # YES or NO # Clear all logs when rig boots up
+
+LOG_ROTATE="YES"            # Rotate (clean) all logs every x hours. Highly recommended to set this to yes!
+
+LOG_ROTATE_INTERVAL="3"     # Time between log rotations in hours. Default is: 3
+
+
+CONTROL_GPU_LED="YES"       # YES or NO # Control GPU LED light. NOTE: It only works on some models
+
+LED_BRIGHTNESS=0          # 0 - 100 # Set the LED brightness intensity. 0 = OFF, 100 = full brightness
+
+
+SLOW_USB_KEY_MODE="NO"      # YES or NO # If you are using a slow USB flash drive (eg. USB 1.0 or USB 2.0) set this to YES
+
+########################################################
+#                                                      #
+# MINER_WATCHDOG settings                              #
+#                                                      #
+########################################################
+
+MINER_WATCHDOG="YES"        # YES or NO # Monitors the rig and automatically corrects the detected problems. Highly recommended to use this!
+
+LOAD_CHECK="NO"            # YES or NO, Check system load average and reboot if HIGH_LOAD_REBOOT="YES", not works if using plusCPU 
+
+HIGH_LOAD_REBOOT="NO"       # YES or NO, Set to YES if you want LOAD_CHECK reboot the rig when all load averages (1 min, 5 min and 15 min) are too much higher than normal.
+			    # Works only if not using plusCPU.
+SYSRQ_REBOOT="YES"           # YES or NO # Use sys request reboot or normal reboot. 
+                            # Set "YES", watchdog, tempcontrol and load_check use sysrq reboot to prevent kernel panic and freeze if GPU drops off the bus
+WATCHDOG_CYCLE="20"         # Time between watchdog cycle loops to check GPU utilization
+
+WATCHDOG_USE_COLOR="YES"     # Watchdog log beautifier, use bold text and colors
+
+GPU_UTIL_THRESHOLD="70"     # GPU utilization threshold, If utilization bellow this value watchdog takes action (Recommended values 70-90) 
+
+
+########################################################
+#                                                      #
+# General OC (overclock) and Power Limit settings      #
+#                                                      #
+########################################################
+
+POWERLIMIT_MODE="GLOBAL"    # GLOBAL, GPU_SPECIFIC, ALGO_SPECIFIC (Pro Settings: GLOBAL_with_GPU_OFFSET, ALGO_SPECIFIC_with_GPU_OFFSET)
+
+OVERCLOCK_MODE="GLOBAL"     # NO, GLOBAL, GPU_SPECIFIC, ALGO_SPECIFIC (Pro Settings: GLOBAL_with_GPU_OFFSET, ALGO_SPECIFIC_with_GPU_OFFSET)
+
+# Modes: - NO disables overclock
+#        - GLOBAL mode means no individual gpu- or algo-specific settings are used
+#        - GPU_SPECIFIC let global setting be overridden by individual gpu-specific setting
+#        - ALGO_SPECIFIC let global setting be dynamically overridden by algo-specific setting
+#        - Pro Settings are not for the faint-hearted. Dont use if you dont know what they are. 
+#        For optimal use of any mining switcher use ALGO_SPECIFIC modes !!
+#        Default values set later on in 1bash are for 1060, remember to set yours accordingly.
+
+_POWERLIMIT_WATTS=100         # Global base Power Limit in watts for each GPU (for 1060 6G)
+
+_CORE_OVERCLOCK=0          # Global base Core overclock offset (for 1060 6G)
+
+_MEMORY_OVERCLOCK=1800        # Global base Memory overclock offset (for 1060 6G)
+
+# Notes: - the above global settings are for all GPU's and algos, may be subject to
+#          overrides or variations according to selected OC and Power Limit modes
+#        - algo-specific and individual gpu-specific settings are some sections below in this file
+
+HEADLESS_MODE="NO"                 # YES or NO # If using P106_100, P104-100 GPU's in a full headless (no monitor) rig, set this to YES
+
+GPUPowerMizerMode_Adjust="NO"      # YES or NO # Use nvidia PowerMizerMode
+
+GPUPowerMizerMode=1                # Set PowerMizerMode
+
+OhGodAnETHlargementPill="NO"       # YES or NO, Set to YES for mining Ethash algos with 1080 or 1080TI cards
+
+
+########################################################
+#                                                      #
+# MINER_TEMP_CONTROL settings                          #
+#                                                      #
+########################################################
+
+# Automatically adjusts the fan speed to keep the desired target temp. If the actual temp is above the target temp this script will increase the fan speed. If the actual temp is 2C below the target temp this script will reduce the fan speed. If the target temperature can't be reached with fan adjustments it will decrease the Power Limit. If actual temp is above the desired target temp and fan speed is already at 100%, the script will lower the Power Limit. Once the target temp is reached, Power Limit will be restored.
+
+MINER_TEMP_CONTROL="YES"           # YES or NO # Automatically adjusts the fan speed to keep the desired temp. Highly recommended to use this!
+
+MANUAL_FAN="NO"                    # YES or NO # Manually set the fans, no auto adjustment. Set this to NO if using the auto MINER_TEMP_CONTROL
+
+FAN_SPEED=70                       # Set fan speed percentage if MANUAL_FAN="YES" (Do not write the % sign)
+
+INDIVIDUAL_TARGET_TEMPS="NO"  # YES or NO, if YES global target temperature is overridden by individual per-GPU setting found later in this file
+
+TARGET_TEMP=80                # Set the desired global (all GPU's) target temperature in Celsius. Recommended ranges: 55 - 75
+
+HOT_SHUTDOWN="NO"	      # YES or NO, if YES system will shutdown when SHUTDOWN_TEMP is exceeded.
+
+SHUTDOWN_TEMP=90	      # If HOT_SHUTDOWN is YES then the system will shutdown if this number is exceeded. (Celsius)
+
+TEMP_CONTROL_CYCLE="20"       # Time between Temp control cycle loops, max 30 seconds
+
+ALLOWED_TEMP_DIFF=2           # If current temp is 2C below the target temp reduce the fan speed. Works only if current temp is below target temp
+
+MINIMAL_FAN_SPEED=50          # Lowest fan speed that will be used. Recommended ranges: 40 - 60
+
+MAXIMAL_FAN_SPEED=95          # Highest fan speed before temp control drops power limit to reach TARGET_TEMP. Recommended ranges: 90 - 100
+
+ALLOWED_FAN_DIFF=2            # Allowed fan difference to set fan speed if difference is more. If current fan speed has more/less difference than what it should be, set it.
+
+__FAN_ADJUST=5                # Fan adjustment size in percent
+
+POWER_ADJUST=5                # Adjustment size in watts. If the target temp can not be achieved and fan is already at 100%, reduce Power Limit
+
+RESTORE_POWER_LIMIT=85        # Restore original Power Limit if fan speed is lower than this percentage. Recommended: 10% less than Maximum fan speed
+
+WARN_PL_DROPS="NO"            # Gives a Warning every time an auto-adjustment occurs and Powerlimit gets dropped
+
+TEMPCONTROL_USE_COLOR="YES"               # YES or NO, enables Text output beautifier, use bold text and colors
+
+
+########################################################
+#                                                      #
+#           Foreman monitor settings                   #
+#                                                      #
+########################################################
+
+# Monitor your miners remotely
+
+FOREMAN_MONITOR="YES"          # Enable or Disable Foreman monitoring.
+                              # To use Foreman, you must register an account at https://foreman.mn
+FOREMAN_CLIENT_ID="1910"          # After registering, open https://dashboard.foreman.mn/dashboard/profile/ to
+                              # get your client ID and API key.  These are needed so your rigs can be
+FOREMAN_API_KEY="77a4d6eecefe9c6d7b7c9a99ea9e97a832b1e8b0"            # correctly associated with your private dashboard
+
+########################################################################################
+# GLOBAL_WORKERNAME implementation Start - DO NOT EDIT this section                    #
+########################################################################################
+IPW=$(ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p')
+IP_AS_WORKER=$(echo -n "$IPW" | tail -c -3 | sed 'y/./0/')
+MAC=$(ifconfig -a | grep -Po 'HWaddr \K.*$')
+MAC_AS_WORKER=$(echo -n "$MAC" | sed 'y/:/_/')
+if [ $GLOBAL_WORKERNAME == "YES" ]; then
+  if [ $AUTO_WORKERNAME == "HOST" ]; then
+    WORKERNAME=$IP_AS_WORKER
+  elif [ $AUTO_WORKERNAME == "MAC" ]; then
+    WORKERNAME=$MAC_AS_WORKER
+  elif [ $AUTO_WORKERNAME == "CUSTOM" ]; then
+    WORKERNAME=$CUSTOM_WORKERNAME
+  fi
+fi
+########################################################################################
+# GLOBAL_WORKERNAME implementation End - DO NOT EDIT this section                      #
+########################################################################################
+
+################################################################
+#                                                              #
+# Algo definitions and Coin->Algo mappings                     #
+#                                                              #
+################################################################
+
+# Notes: nvOC natively supports some algorithms.
+#        You can add a new one but you also have to specify the set of coins that
+#        support it and a compatilbe miner in the next sections.
+#        See the example for NEWCOIN/NEWALGO at the end of this section.
+
+ALGOS="BEAMHASHII BITCORE CRYPTONIGHT CRYPTONIGHTHEAVY CRYPTONIGHTV7 CRYPTONIGHTV8 CRYPTONIGHTR CUCKAROO29 CUCKATOO31 CUCKOOCYCLE DECRED ENERGI EQUIHASH ETHASH GRS LBRY LYRA2V2 LYRA2RE3 LYRA2Z MYR_GR NEOSCRYPT PASCAL PHI1612 PHI2 SIA SIB SKEIN SKUNK X13 X16R X16RV2 X21S X22I XEVAN ZHASH"
+
+BEAMHASHII_COINS="BEAM,NICE_BEAMHASHII"
+BITCORE_COINS="BTX"
+CRYPTONIGHT_COINS="KRB,NICE_CRYPTONIGHT"
+CRYPTONIGHTV7_COINS="ETN,NICE_CRYPTONIGHTV7"
+CRYPTONIGHTV8_COINS="MPH_CRYPTONIGHTV8,NICE_CRYPTONIGHTV8"
+CRYPTONIGHTHEAVY_COINS="LOKI,NICE_CRYPTONIGHTHEAVY"
+CRYPTONIGHTR_COINS="XMR"
+CUCKOOCYCLE_COINS="AE"
+CUCKAROO29_COINS="GRIN,NICE_CUCKAROO29"
+CUCKATOO31_COINS="GRIN31,NICE_CUCKATOO31"
+DECRED_COINS="DCR"
+ENERGI_COINS="NRG"
+EQUIHASH_COINS="ZEC,ZEN,HUSH,ZCL,BTCP,KMD,ZPOOL_EQUIHASH,MPH_EQUIHASH,NICE_EQUIHASH,VOTE,BTCP,BCI"
+ETHASH_COINS="ETH,ETC,EXP,UBQ,CLO,MUSIC,SOIL,MPH_ETHASH,PIRL,NICE_ETHASH,ETP,CLAYMORE_DUAL"
+GRS_COINS="GRS,MPH_GRS"
+HEX_COINS="XDNA"
+LBRY_COINS="LBC,ZPOOL_LBRY"
+LYRA2V2_COINS="MONA,VTC,NICE_LYRA2REV2,XVG,MPH_LYRA2V2,ZPOOL_LYRA2V2"
+LYRA2RE3_COINS="VTC,NICE_LYRA2REV3"
+LYRA2Z_COINS="MPH_LYRA2Z"
+MTP_COINS="XZC,NICE_MTP"
+MYR_GR_COINS="XMY,MPH_MYR_GR"
+NEOSCRYPT_COINS="FTC,ORB,PXC,VIVO,TZC,NICE_NEOSCRYPT,DSR,CRC,GBX,MPH_NEOSCRYPT,ZPOOL_NEOSCRYPT"
+PASCAL_COINS="PASC,PASL"
+PHI1612_COINS="FLM,SERA"
+PHI2_COINS="LUX"
+SIA_COINS="SIA"
+SIB_COINS="SIB,NICE_X11GHOST"
+SKEIN_COINS="ZPOOL_SKEIN,MPH_SKEIN"
+SKUNK_COINS="SIGT,ZPOOL_SKUNK,ALTCOM,NICE_SKUNKHASH"
+X13_COINS="ONION"
+X16R_COINS="XMN,NICE_X16R"
+X16RV2_COINS="RVN,NICE_X16RV2"
+X21S_COINS="RITO"
+X22I_COINS="SUQA"
+XEVAN_COINS="BSD"
+ZHASH_COINS="AION,BTG"
+
+# example, adding NEWALGO for NEWCOIN:
+#
+#   ALGOS="${ALGOS} NEWALGO"
+#   NEWALGO_COINS="NEWCOIN"
+
+
+########################################################
+#                                                      #
+# Common miners settings                               #
+#                                                      #
+########################################################
+
+USE_ENVIRONMENTAL_VARIBLES="NO"                  # YES or NO # Not needed for nvidia cards. Default: NO
+
+
+WALLET_ADDRESS_FORMAT="%2e"                        # Choose between "." , "/" , "-" or any other separators your pool uses.
+                                                 # Some pools require dot (address.worker), some require slash (address/worker) format.
+                                                 # Depending on the pool you use, set this appropriately:
+
+MINER_PWD="ndmanh85%40gmail.com"                                    # Set the miner password. Default: x
+                                                 # For zpool use MINER_PWD="$WORKERNAME,c=btc"
+                                                 # For dwarfpool and some other pools you can set your email to enable notification from pool
+
+########################################################
+#                                                      #
+# Algo->miner mapping and specific settings            #
+#                                                      #
+########################################################
+
+# Notes: miner, intensity and wallet address format for different algos.
+#        Choose a miner either from built in miners or any installed pluggable miner
+#        Test intensity on your rig and edit it or miner will set default values.
+#        Choose the wallet address format your pool requires, or leave common format.
+#        You can define new mappings as in the example at the end of this section.
+#        Read BMINER available scheme in coin section 
+
+# Available builtin miners:
+#        Various algos:
+#          "BMINER", "CryptoDredge", "GMiner", "NBMiner", "TPccminer", "T_Rex", "XMR_Stak", "ZENEMYminer" 
+#        Energi:
+#          "ENERGIMINER"
+#        Equihash:
+#          "BMINER", "DSTM", "EWBF" 
+#        Ethash:
+#          "BMINER", "CLAYMORE", "ETHMINER", "NBMiner", "PhoenixMiner"
+#        Zhash:
+#          "BMINER", GMINER", "LOLMINER, "Z_EWBF" 
+
+
+## ETHASH
+ETHASH_MINER="ETHMINER"
+ETHASH_WALLET_FORMAT="$WALLET_ADDRESS_FORMAT"       # Some pools require to use "%2e" instead of "." More examples available :https://github.com/ethereum-mining/ethminer/blob/master/docs/POOL_EXAMPLES_ETH.md
+
+# example, adding miner for NEWALGO:
+#
+#   ## Newalgo
+#   NEWALGO_MINER="builtin_or_pluggable_miner_name"
+#   NEWALGO_WALLET_FORMAT="$WALLET_ADDRESS_FORMAT"
+
+########################################################
+#                                                      #
+# GPU miners settings                                  #
+#                                                      #
+########################################################
+
+# Notes: This list of miner settings is incomplete, take it as an example.
+#        You can find here some hints about common mining options for special cases.
+#        Remember to add here any needed settings for yout miner of choice
+#        like in the following example, otherwise defaults will apply.
+#        Assuming your miner name is NEWMINER:
+#
+#            NEWMINER_VERSION="4.2.0"    # default: "recommended", otherwise you can choose "latest" or the exact version number
+#            NEWMINER_OPTS=""            # default: empty
+#            Use miner help command to see available options 
+
+ETHMINER_OPTS=""                                   # Ethminer optional arguments
+ETHMINER_VERSION="recommended"                     # "latest", "recommended" or the version folder name.
+
+NSFMINER_OPTS=""                                   # Ethminer optional arguments
+NSFMINER_VERSION="recommended"                     # "latest", "recommended" or the version folder name.
+
+########################################################
+#                                                      #
+# COIN, POOL, PORT info section, sorted alphabetically #
+#                                                      #
+########################################################
+
+# Notes: set your coins infom pool and miner coin-specific arguments
+#        If you add any new coin here don't forget to also map it to its
+#        algo as explained in previous sections.
+#        You can setup new coins as in the example at the end of this section.
+#
+#        Default Coin Pool Protocols is stratum+tcp, If your pool has other protocols check miner support before changing it
+#        stratum+ssl, stratum+tcp, stratum+tls, stratum+tls12, stratum1+ssl, stratum1+tcp, stratum1+tls, stratum1+tls12, stratum2+ssl, stratum2+tcp, stratum2+tls, stratum2+tls12
+#
+#        If using BMINER use these in coin pool protocols:
+#        Equihash Stratum: "stratum", Equihash Stratum+SSL:"stratum+ssl" 
+#        Ethash Stratum:"ethash", Ethash Stratum+SSL:"ethash+ssl", Ethereum Proxy:"ethproxy" ethereum Stratum:"ethstratum"
+#        ZHash Algos like BTG: "zhash"
+#        Tensority based coins like BTM: "tensority"
+
+
+# Ethereum (ETH)
+ETH_ADDRESS="0xa0bbc526fa22cffa9629876d5854ce72da0c6cd1"
+ETH_OPTS=""    
+ETH_POOL="asia1.nanopool.org"
+ETH_PORT="9999"
+ETH_WORKER="$WORKERNAME"
+ETH_POOL_PROTOCOL="stratum+tcp"
+
+# example, adding NEWCOIN:
+#
+#   ## Newcoin (NEWCOIN)
+#   NEWCOIN_ADDRESS="replace_with_your_address"
+#   NEWCOIN_OPTS=""
+#   NEWCOIN_POOL="newpool.example.org"
+#   NEWCOIN_PORT="4242"
+#   NEWCOIN_WORKER="$WORKERNAME"
+#   NEWCOIN_POOL_PROTOCOL="stratum+tcp"
+
+#####################################################################
+#                                                                   #
+# Individual GPU_SPECIFIC Power Limit, Temp and Clock settings      #
+#                                                                   #
+#####################################################################
+
+# Set individual target temps here if INDIVIDUAL_TARGET_TEMPS="YES"
+TARGET_TEMP_0=75
+TARGET_TEMP_1=75
+TARGET_TEMP_2=75
+TARGET_TEMP_3=75
+TARGET_TEMP_4=75
+TARGET_TEMP_5=75
+TARGET_TEMP_6=75
+TARGET_TEMP_7=75
+TARGET_TEMP_8=75
+TARGET_TEMP_9=75
+TARGET_TEMP_10=75
+TARGET_TEMP_11=75
+TARGET_TEMP_12=75
+TARGET_TEMP_13=75
+TARGET_TEMP_14=75
+TARGET_TEMP_15=75
+TARGET_TEMP_16=75
+TARGET_TEMP_17=75
+TARGET_TEMP_18=75
+
+# Please note that individual clocks and powerlimit settings will be applied to
+# global base (eventually algo-specific) values as overrides according
+# to the previously selected OVERCLOCK_MODE / POWERLIMIT_MODE policy.
+
+# Set individual powerlimits here if POWERLIMIT_MODE is GPU_SPECIFIC
+INDIVIDUAL_POWERLIMIT_0=100
+INDIVIDUAL_POWERLIMIT_1=100
+INDIVIDUAL_POWERLIMIT_2=100
+INDIVIDUAL_POWERLIMIT_3=100
+INDIVIDUAL_POWERLIMIT_4=100
+INDIVIDUAL_POWERLIMIT_5=100
+INDIVIDUAL_POWERLIMIT_6=100
+INDIVIDUAL_POWERLIMIT_7=100
+INDIVIDUAL_POWERLIMIT_8=100
+INDIVIDUAL_POWERLIMIT_9=100
+INDIVIDUAL_POWERLIMIT_10=100
+INDIVIDUAL_POWERLIMIT_11=100
+INDIVIDUAL_POWERLIMIT_12=100
+INDIVIDUAL_POWERLIMIT_13=100
+INDIVIDUAL_POWERLIMIT_14=100
+INDIVIDUAL_POWERLIMIT_15=100
+INDIVIDUAL_POWERLIMIT_16=100
+INDIVIDUAL_POWERLIMIT_17=100
+INDIVIDUAL_POWERLIMIT_18=100
+
+# Set individual clocks here if OVERCLOCK_MODE is GPU_SPECIFIC
+__CORE_OVERCLOCK_0=100
+MEMORY_OVERCLOCK_0=100
+
+__CORE_OVERCLOCK_1=100
+MEMORY_OVERCLOCK_1=100
+
+__CORE_OVERCLOCK_2=100
+MEMORY_OVERCLOCK_2=100
+
+__CORE_OVERCLOCK_3=100
+MEMORY_OVERCLOCK_3=100
+
+__CORE_OVERCLOCK_4=100
+MEMORY_OVERCLOCK_4=100
+
+__CORE_OVERCLOCK_5=100
+MEMORY_OVERCLOCK_5=100
+
+__CORE_OVERCLOCK_6=100
+MEMORY_OVERCLOCK_6=100
+
+__CORE_OVERCLOCK_7=100
+MEMORY_OVERCLOCK_7=100
+
+__CORE_OVERCLOCK_8=100
+MEMORY_OVERCLOCK_8=100
+
+__CORE_OVERCLOCK_9=100
+MEMORY_OVERCLOCK_9=100
+
+__CORE_OVERCLOCK_10=100
+MEMORY_OVERCLOCK_10=100
+
+__CORE_OVERCLOCK_11=100
+MEMORY_OVERCLOCK_11=100
+
+__CORE_OVERCLOCK_12=100
+MEMORY_OVERCLOCK_12=100
+
+__CORE_OVERCLOCK_13=100
+MEMORY_OVERCLOCK_13=100
+
+__CORE_OVERCLOCK_14=100
+MEMORY_OVERCLOCK_14=100
+
+__CORE_OVERCLOCK_15=100
+MEMORY_OVERCLOCK_15=100
+
+__CORE_OVERCLOCK_16=100
+MEMORY_OVERCLOCK_16=100
+
+__CORE_OVERCLOCK_17=100
+MEMORY_OVERCLOCK_17=100
+
+__CORE_OVERCLOCK_18=100
+MEMORY_OVERCLOCK_18=100
