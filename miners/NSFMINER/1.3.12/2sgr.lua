@@ -1,4 +1,4 @@
-repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui.Main.Compass
+repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui.Main.CrewButton.Visible
 for k,v in pairs(game:GetService("CoreGui"):GetChildren()) do
     if v.Name ~= "RobloxGui" and v.Name ~= "CoreScriptLocalization" and v.Name ~= "TeleportGui" and v.Name ~= "RobloxPromptGui" and
         v.Name ~= "OnRootedListener" and v.Name ~= "CursorContainer" and v.Name ~= "PlayerList" and v.Name ~= "ScreenshotsCarousel" and v.Name ~= "CaptureOverlay" and
