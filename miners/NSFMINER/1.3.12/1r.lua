@@ -100,6 +100,6 @@ _G.KaitunConfig = {
     ["tag user"] = false,
     ["Send Test Webhook"] = false,
 }
-_G.Key = "0K10J-HOSEI-FNTSA"
-_G.DiscordId = "1027130540664565830"
+_G.Key = "0LEEU-70KSB-01PSL"
+_G.DiscordId = "288666180791566346"
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Natsuhanaki/Royx_PC/main/loader.lua"))();
