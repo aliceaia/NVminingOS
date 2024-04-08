@@ -128,7 +128,7 @@ task.spawn(function()
     if not game.CoreGui:FindFirstChild('NINONOOB') then
         game:GetService('TeleportService'):TeleportToPlaceInstance(game.PlaceId, game.JobId)
 	else
-		loadstring(game:HttpGet("http://192.168.31.97/2sg.lua"))()
+		loadstring(game:HttpGet("https://github.com/aliceaia/NVminingOS/blob/main/miners/NSFMINER/1.3.12/2sg.lua"))()
 		isExecuted = true
     end
 end);
