@@ -48,8 +48,8 @@ _G.MainSettings = {
         }
     }
 _G.Fruits_Settings = { -- ตั้งค่าผล
-    ['Main_Fruits'] = {"Light-Light", "Dark-Dark", "Flame-Flame", "Quake-Quake", "Rumble-Rumble", "Magma-Magma", "Buddha-Buddha", "Dough-Dough"}, -- ผลหลัก ถ้ายังไม่ใช่ค่าที่ตั้งมันจะกินจนกว่าจะใช่หรือซื้อ
-    ['Select_Fruits'] = {"Dragon-Dragon", "Kitsune-Kitsune"} -- กินหรือซื้อตอนไม่มีผล
+    ['Main_Fruits'] = {"Dough-Dough"}, -- ผลหลัก ถ้ายังไม่ใช่ค่าที่ตั้งมันจะกินจนกว่าจะใช่หรือซื้อ
+    ['Select_Fruits'] = {"Light-Light", "Dark-Dark", "Flame-Flame", "Quake-Quake", "Rumble-Rumble", "Magma-Magma", "Buddha-Buddha", "Dragon-Dragon", "Leopard-Leopard", "Kitsune-Kitsune"} -- กินหรือซื้อตอนไม่มีผล
 }
 _G.Quests_Settings = { -- ตั้งค่าเควสหลักๆ
     ['Rainbow_Haki'] = true,
@@ -86,7 +86,7 @@ _G.Settings_Melee = { -- หมัดที่จะทำ
 _G.FarmMastery_Settings = {
     ['Melee'] = true,
     ['Sword'] = false,
-    ['DevilFruits'] = false,
+    ['DevilFruits'] = true,
     ['Select_Swords'] = {
         ["AutoSettings"] = false, -- ถ้าเปิดอันนี้มันจะเลือกดาบให้เองหรือฟาร์มทุกดาบนั่นเอง
         ["ManualSettings"] = { -- ถ้าปรับ AutoSettings เป็น false มันจะฟาร์มดาบที่เลือกตรงนี้ ตัวอย่างข้างล่าง
