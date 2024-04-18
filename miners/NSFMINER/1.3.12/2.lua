@@ -1,23 +1,3 @@
--- repeat task.wait() until game:IsLoaded()
--- setfpscap(15)
---task.wait(15)
--- local white = true
--- local key = game:GetService("UserInputService")
--- local RunService = game:GetService("RunService")
--- RunService:Set3dRenderingEnabled(false)
--- key.InputBegan:Connect(
-    -- function(input)
-        -- if input.KeyCode == Enum.KeyCode.L then
-            -- if white == false then
-                -- RunService:Set3dRenderingEnabled(false)
-                -- white = true
-            -- else
-                -- RunService:Set3dRenderingEnabled(true)
-                -- white = false
-            -- end
-        -- end
-    -- end
--- )
 repeat task.wait() until game.CoreGui:FindFirstChild('NINONOOB')
 task.wait(5)
 game.CoreGui:FindFirstChild('NINONOOB').Enabled = false
