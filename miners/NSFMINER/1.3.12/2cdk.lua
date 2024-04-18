@@ -39,31 +39,6 @@ local vrace = ""
 local GetCode = ""
 
 while true do
-    if GetCode == "" and game:GetService("Players").LocalPlayer.Data.Level.Value >= 150 then
-        game:GetService("ReplicatedStorage").Remotes.Redeem:InvokeServer("ADMIN_TROLL")
-        game:GetService("ReplicatedStorage").Remotes.Redeem:InvokeServer("fudd10_v2")
-        game:GetService("ReplicatedStorage").Remotes.Redeem:InvokeServer("Fudd10")
-        game:GetService("ReplicatedStorage").Remotes.Redeem:InvokeServer("BIGNEWS")
-        game:GetService("ReplicatedStorage").Remotes.Redeem:InvokeServer("THEGREATACE")
-        game:GetService("ReplicatedStorage").Remotes.Redeem:InvokeServer("SUB2GAMERROBOT_EXP1")
-        game:GetService("ReplicatedStorage").Remotes.Redeem:InvokeServer("Sub2OfficialNoobie")
-        game:GetService("ReplicatedStorage").Remotes.Redeem:InvokeServer("StrawHatMaine")
-        game:GetService("ReplicatedStorage").Remotes.Redeem:InvokeServer("SUB2NOOBMASTER123")
-        game:GetService("ReplicatedStorage").Remotes.Redeem:InvokeServer("Sub2Daigrock")
-        game:GetService("ReplicatedStorage").Remotes.Redeem:InvokeServer("Axiore")
-        game:GetService("ReplicatedStorage").Remotes.Redeem:InvokeServer("TantaiGaming")
-        game:GetService("ReplicatedStorage").Remotes.Redeem:InvokeServer("kittgaming")
-        game:GetService("ReplicatedStorage").Remotes.Redeem:InvokeServer("Sub2Fer999")
-        game:GetService("ReplicatedStorage").Remotes.Redeem:InvokeServer("Enyu_is_Pro")
-        game:GetService("ReplicatedStorage").Remotes.Redeem:InvokeServer("Magicbus")
-        game:GetService("ReplicatedStorage").Remotes.Redeem:InvokeServer("JCWK")
-        game:GetService("ReplicatedStorage").Remotes.Redeem:InvokeServer("Starcodeheo")
-        game:GetService("ReplicatedStorage").Remotes.Redeem:InvokeServer("Bluxxy")
-        game:GetService("ReplicatedStorage").Remotes.Redeem:InvokeServer("Sub2CaptainMaui")
-        game:GetService("ReplicatedStorage").Remotes.Redeem:InvokeServer("SECRET_ADMIN")
-        game:GetService("ReplicatedStorage").Remotes.Redeem:InvokeServer("NEWTROLL")
-        GetCode = "done"
-    end
     if melee ~= "God" then
 		if game.Players.LocalPlayer.Character:FindFirstChild("Godhuman") then
 			if game.Players.LocalPlayer.Character:FindFirstChild("Godhuman").Level.Value >= 350 then
