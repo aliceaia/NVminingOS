@@ -132,7 +132,7 @@ task.spawn(function()
     end
 end);
 
-getgenv().Key = "MARU-U143-AW9E2-CJD7-5TN82-IX9H"
-getgenv().id = "1027191602269147278"
+getgenv().Key = "MARU-8LY9G-0MSC9-CKM9-BB2VD-Z51P"
+getgenv().id = "1027130540664565830"
 getgenv().Script_Mode = "Kaitun_Script"
 loadstring(game:HttpGet("https://raw.githubusercontent.com/xshiba/MaruBitkub/main/Mobile.lua"))()
