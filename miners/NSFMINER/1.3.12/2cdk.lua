@@ -14,16 +14,6 @@ key.InputBegan:Connect(
         end
     end
 )
-if game.CoreGui:FindFirstChild("TrigonTopbar")then
-	for r, v in pairs(
-		getconnections(
-			game:GetService("CoreGui").TrigonTopbar.TopbarFrame.Left.Trigon.IconButton.Activated
-		)
-	) do
-		v.Function()
-	end
-	game:GetService("CoreGui").TrigonTopbar:Destroy()
-end
 
 local Player = game:GetService("Players").LocalPlayer.Name
 local UID = game:GetService("Players").LocalPlayer.UserId
