@@ -18,7 +18,7 @@ key.InputBegan:Connect(
 )
 
 _G.Team = "Pirate" -- Marine / Pirate
-getgenv().Script_Mode = "Kaitun_Script"
+_G.FixBugLDArce = true
 
 _G.LogsDes = {
     ["Enabled"] = false, -- เปิดการใช้งาน
