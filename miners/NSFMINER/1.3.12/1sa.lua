@@ -18,8 +18,6 @@ key.InputBegan:Connect(
 )
 
 _G.Team = "Pirate" -- Marine / Pirate
-_G.FixBugLDArce = true
-
 _G.LogsDes = {
     ["Enabled"] = false, -- เปิดการใช้งาน
     ["SendAlias"] = false, -- เปิดการส่ง Alias
@@ -132,7 +130,7 @@ task.spawn(function()
     end
 end);
 
-getgenv().Key = "MARU-IM0R-IFK1L-LFDO-TFEH8-GCBH"
-getgenv().id = "288666180791566346"
+getgenv().Key = "MARU-V1GD-FVV18-HQ6R-566O3-JTO0"
+getgenv().id = "1029317109303496735"
 getgenv().Script_Mode = "Kaitun_Script"
 loadstring(game:HttpGet("https://raw.githubusercontent.com/xshiba/MaruBitkub/main/Mobile.lua"))()
