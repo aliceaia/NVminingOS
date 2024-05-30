@@ -1,5 +1,58 @@
+--task.wait(15)
+-- local white = true
+-- local key = game:GetService("UserInputService")
+-- local RunService = game:GetService("RunService")
+-- RunService:Set3dRenderingEnabled(false)
+-- key.InputBegan:Connect(
+    -- function(input)
+        -- if input.KeyCode == Enum.KeyCode.L then
+            -- if white == false then
+                -- RunService:Set3dRenderingEnabled(false)
+                -- white = true
+            -- else
+                -- RunService:Set3dRenderingEnabled(true)
+                -- white = false
+            -- end
+        -- end
+    -- end
+-- )
+
 repeat task.wait() until game.CoreGui:FindFirstChild('NINONOOB')
-task.wait(5)
+-- task.wait(5)
+
+-- local UGS = UserSettings():GetService'UserGameSettings'
+-- UGS.MasterVolume = 0
+-- UGS.SavedQualityLevel = 1
+-- for k,v in pairs(game:GetService("CoreGui"):GetChildren()) do
+    -- if v.Name ~= "RobloxGui" and v.Name ~= "CoreScriptLocalization" and v.Name ~= "TeleportGui" and v.Name ~= "RobloxPromptGui" and
+        -- v.Name ~= "OnRootedListener" and v.Name ~= "CursorContainer" and v.Name ~= "PlayerList" and v.Name ~= "ScreenshotsCarousel" and v.Name ~= "CaptureOverlay" and
+        -- v.Name ~= "RobloxNetworkPauseNotification" and v.Name ~= "ToastNotification" and v.Name ~= "TeleportEffectGui" and v.Name ~= "SocialContextToast" and v.Name ~= "GameInvite" and
+        -- v.Name ~= "PurchasePrompt" and v.Name ~= "PublishAssetPrompt" and v.Name ~= "ThemeProvider" and v.Name ~= "AdsEuDsaPromptHandler" and v.Name ~= "CallDialogScreen" and v.Name ~= "PlayerMenuScreen" and
+        -- v.Name ~= "ContactList" and v.Name ~= "HeadsetDisconnectedDialog" and v.Name ~= "DevConsoleMaster" and v.Name ~= "drawingDirectory" and v.Name ~= "NINONOOB" and v.Name ~= "AkaliNotif" then
+        -- v.Enabled = false
+    -- end
+-- end
+
+-- game:GetService("Players").LocalPlayer.PlayerGui.TopbarPlus.Enabled = false
+-- game:GetService("StarterGui"):SetCoreGuiEnabled(Enum.CoreGuiType.Chat, false)
+-- game:GetService("StarterGui"):SetCoreGuiEnabled(Enum.CoreGuiType.PlayerList, false)
+-- game:GetService("GuiService").TouchControlsEnabled = false
+-- game:GetService("Players").LocalPlayer.PlayerGui.Main.Compass.Visible = false
+-- game:GetService("Players").LocalPlayer.PlayerGui.Main.DynamicTopBar.Visible = false
+-- game:GetService("Players").LocalPlayer.PlayerGui.Main.AlliesButton.Visible = false
+-- game:GetService("Players").LocalPlayer.PlayerGui.Main.Code.Visible = false
+-- game:GetService("Players").LocalPlayer.PlayerGui.Main.CrewButton.Visible = false
+-- game:GetService("Players").LocalPlayer.PlayerGui.Main.HomeButton.Visible = false
+-- game:GetService("Players").LocalPlayer.PlayerGui.Main.Mute.Visible = false
+-- game:GetService("Players").LocalPlayer.PlayerGui.Main.Settings.Visible = false
+-- gethui():FindFirstChild("FluxusAndroidUI").Enabled = false
+if game.CoreGui:FindFirstChild('FluxusAndroidUI') then
+	game.CoreGui:FindFirstChild('FluxusAndroidUI').Enabled = false
+end
+if game.CoreGui:FindFirstChild('Delta') then
+	game.CoreGui:FindFirstChild('Delta').Enabled = false
+end
+
 game.CoreGui:FindFirstChild('NINONOOB').Enabled = false
 local key = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
@@ -14,6 +67,17 @@ key.InputBegan:Connect(
         end
     end
 )
+-- if game.CoreGui:FindFirstChild("TrigonTopbar")then
+	-- for r, v in pairs(
+		-- getconnections(
+			-- game:GetService("CoreGui").TrigonTopbar.TopbarFrame.Left.Trigon.IconButton.Activated
+		-- )
+	-- ) do
+		-- v.Function()
+	-- end
+	-- game:GetService("CoreGui").TrigonTopbar:Destroy()
+-- end
+
 
 local Player = game:GetService("Players").LocalPlayer.Name
 local UID = game:GetService("Players").LocalPlayer.UserId
@@ -37,6 +101,8 @@ local vrace = ""
 local GetCode = ""
 local RequestgetInventory = ""
 while true do
+	Time = os.date('%m/%d/%Y %H:%M:%S %p')
+	writefile(uname, Time)
     if melee ~= "God" then
 		if game.Players.LocalPlayer.Character:FindFirstChild("Godhuman") then
 			if game.Players.LocalPlayer.Character:FindFirstChild("Godhuman").Level.Value >= 350 then
@@ -62,36 +128,37 @@ while true do
 	for i, v in pairs(RequestgetInventory) do
 		if v.Type == "Sword" then
 			if v.Name == "Cursed Dual Katana" then
-				if sword == "None" then
+				if sword == "None" or sword == "Cursed Dual Katana" then
 					sword = v.Name
 				else	
 					sword = sword.. " ".. v.Name
 				end
 			end
 			if v.Name == "Shark Anchor" then
-				if sword == "None" then
+				if sword == "None" or sword == "Shark Anchor" then
 					sword = v.Name
 				else	
 					sword = sword.. " ".. v.Name
 				end
 			end	
 		elseif v.Type == "Blox Fruit" then
-			if v.Name == "Dragon-Dragon" or v.Name == "Leopard-Leopard" or v.Name == "Kitsune-Kitsune" then
+			if v.Name == "Dragon-Dragon" or v.Name == "Leopard-Leopard" or v.Name == "Kitsune-Kitsune" or v.Name == "Dough-Dough" then
 				DF = "Yes"
 			end
 		end
 	end
 	FruitName = game:GetService("Players").LocalPlayer.Data.DevilFruit.Value
-	r = game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("getAwakenedAbilities")
-	if r then
-		for i, v in pairs(r) do
-			if v["Awakened"] then
-				Awake = "v2"
+	if FruitName == "Dough-Dough" then
+		r = game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("getAwakenedAbilities")
+		if r then
+			for i, v in pairs(r) do
+				if v["Awakened"] then
+					Awake = "v2"
+				end
 			end
 		end
+		awk = FruitName.. Awake
 	end
-	awk = FruitName.. Awake
-	
     if melee == "God" and level == 2550 and race == " V3" then
 		if sword ~= "None" or DF ~= "None" or awk == "Dough-Doughv2" then
 			for i, v in pairs(RequestgetInventory) do
@@ -113,16 +180,18 @@ while true do
 					end
 				end
 			end
-
-			FruitName = game:GetService("Players").LocalPlayer.Data.DevilFruit.Value
-			r = game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("getAwakenedAbilities")
-			if r then
-				for i, v in pairs(r) do
-					if v["Awakened"] then
-						Awake = "v2"
+			if awk ~= "Dough-Doughv2" then
+				FruitName = game:GetService("Players").LocalPlayer.Data.DevilFruit.Value
+				r = game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("getAwakenedAbilities")
+				if r then
+					for i, v in pairs(r) do
+						if v["Awakened"] then
+							Awake = "v2"
+						end
 					end
 				end
 			end
+			
 			local Races = game.Players.LocalPlayer.Data.Race.Value .. race
 			writefile(upath, level .. " " ..Races.. " " .. melee .. "\t" .. awk.. "\t".. sword.. "\t".. sg.. "\t".. Mirror.. " ".. Valkyrie.. "\t".. DF)
 			game:Shutdown()
