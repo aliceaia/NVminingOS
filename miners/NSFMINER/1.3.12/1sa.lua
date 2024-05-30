@@ -1,4 +1,4 @@
-repeat task.wait() until game:IsLoaded() and game.CoreGui:FindFirstChild('Delta')
+repeat task.wait() until game:IsLoaded()
 -- local Black = true
 -- function blackscreen(enable)
     -- local playerGui = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
