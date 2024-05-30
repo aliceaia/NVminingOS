@@ -1,4 +1,3 @@
-repeat task.wait() until game:IsLoaded()
 _G.Team = "Pirate" -- Marine / Pirate
 
 _G.LogsDes = {
