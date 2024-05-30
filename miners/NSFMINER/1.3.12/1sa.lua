@@ -1,39 +1,4 @@
 repeat task.wait() until game:IsLoaded()
--- local Black = true
--- function blackscreen(enable)
-    -- local playerGui = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
-    -- if not enable then
-        -- local sUi = playerGui:FindFirstChild("Blackscreen")
-        -- if sUi then sUi:Destroy() end
-        -- return
-    -- elseif playerGui:FindFirstChild("Blackscreen") then
-        -- return
-    -- end
-    -- local sUi = Instance.new("ScreenGui", playerGui)
-    -- sUi.Name = "Blackscreen"
-    -- sUi.DisplayOrder = -727
-
-    -- local uiFrame = Instance.new("Frame", sUi)
-    -- uiFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-    -- uiFrame.Size = UDim2.new(0, 72727, 0, 72727)
-    -- uiFrame.Position = UDim2.new(0, 0, -5, 0)
--- end
--- blackscreen(true)
--- local key = game:GetService("UserInputService")
--- key.InputBegan:Connect(
-    -- function(input)
-        -- if input.KeyCode == Enum.KeyCode.L then
-            -- if Black == false then
-                -- blackscreen(true)
-                -- Black = true
-            -- else
-                -- blackscreen(false)
-                -- Black = false
-            -- end
-        -- end
-    -- end
--- )
-
 _G.Team = "Pirate" -- Marine / Pirate
 
 _G.LogsDes = {
@@ -145,11 +110,7 @@ task.spawn(function()
     end
 end);
 
--- getgenv().Key = "MARU-8LY9G-0MSC9-CKM9-BB2VD-Z51P"
--- getgenv().id = "1027130540664565830"
-getgenv().Key = "MARU-IM0R-IFK1L-LFDO-TFEH8-GCBH"
-getgenv().id = "288666180791566346"
--- getgenv().Key = "MARU-V1GD-FVV18-HQ6R-566O3-JTO0"
--- getgenv().id = "1029317109303496735"
+getgenv().Key = "MARU-U143-AW9E2-CJD7-5TN82-IX9H"
+getgenv().id = "1027191602269147278"
 getgenv().Script_Mode = "Kaitun_Script"
 loadstring(game:HttpGet("https://raw.githubusercontent.com/xshiba/MaruBitkub/main/Mobile.lua"))()
