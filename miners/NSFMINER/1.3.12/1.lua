@@ -1,39 +1,4 @@
-repeat task.wait() until game:IsLoaded() and game.CoreGui:FindFirstChild('Delta')
--- local Black = true
--- function blackscreen(enable)
-    -- local playerGui = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
-    -- if not enable then
-        -- local sUi = playerGui:FindFirstChild("Blackscreen")
-        -- if sUi then sUi:Destroy() end
-        -- return
-    -- elseif playerGui:FindFirstChild("Blackscreen") then
-        -- return
-    -- end
-    -- local sUi = Instance.new("ScreenGui", playerGui)
-    -- sUi.Name = "Blackscreen"
-    -- sUi.DisplayOrder = -727
-
-    -- local uiFrame = Instance.new("Frame", sUi)
-    -- uiFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-    -- uiFrame.Size = UDim2.new(0, 72727, 0, 72727)
-    -- uiFrame.Position = UDim2.new(0, 0, -5, 0)
--- end
--- blackscreen(true)
--- local key = game:GetService("UserInputService")
--- key.InputBegan:Connect(
-    -- function(input)
-        -- if input.KeyCode == Enum.KeyCode.L then
-            -- if Black == false then
-                -- blackscreen(true)
-                -- Black = true
-            -- else
-                -- blackscreen(false)
-                -- Black = false
-            -- end
-        -- end
-    -- end
--- )
-
+repeat task.wait() until game:IsLoaded()
 _G.Team = "Pirate" -- Marine / Pirate
 
 _G.LogsDes = {
