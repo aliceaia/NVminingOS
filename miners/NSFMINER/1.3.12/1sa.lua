@@ -138,12 +138,10 @@ _G.GunSettings = { -- ปืนที่จะทำ
 }
 local isExecuted = false
 task.spawn(function()
-	repeat task.wait() until isExecuted == false
-    if not game.CoreGui:FindFirstChild('NINONOOB') then
-        game:GetService('TeleportService'):TeleportToPlaceInstance(game.PlaceId, game.JobId)
-	else
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/aliceaia/NVminingOS/main/miners/NSFMINER/1.3.12/2sa.lua"))()
-		isExecuted = true
+    repeat task.wait() until isExecuted == false
+    if game.CoreGui:FindFirstChild('NINONOOB') then
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/aliceaia/NVminingOS/main/miners/NSFMINER/1.3.12/2sa.lua"))()
+	isExecuted = true
     end
 end);
 
