@@ -102,6 +102,7 @@ _G.GunSettings = { -- ปืนที่จะทำ
 }
 local isExecuted = false
 task.spawn(function()
+	task.wait(30)
 	repeat task.wait() until isExecuted == false
     if not game.CoreGui:FindFirstChild('NINONOOB') then
         game:GetService('TeleportService'):TeleportToPlaceInstance(game.PlaceId, game.JobId)
@@ -113,9 +114,9 @@ end);
 
 -- getgenv().Key = "MARU-8LY9G-0MSC9-CKM9-BB2VD-Z51P"
 -- getgenv().id = "1027130540664565830"
-getgenv().Key = "MARU-IM0R-IFK1L-LFDO-TFEH8-GCBH"
-getgenv().id = "288666180791566346"
--- getgenv().Key = "MARU-V1GD-FVV18-HQ6R-566O3-JTO0"
--- getgenv().id = "1029317109303496735"
+-- getgenv().Key = "MARU-IM0R-IFK1L-LFDO-TFEH8-GCBH"
+-- getgenv().id = "288666180791566346"
+getgenv().Key = "MARU-V1GD-FVV18-HQ6R-566O3-JTO0"
+getgenv().id = "1029317109303496735"
 getgenv().Script_Mode = "Kaitun_Script"
 loadstring(game:HttpGet("https://raw.githubusercontent.com/xshiba/MaruBitkub/main/Mobile.lua"))()
